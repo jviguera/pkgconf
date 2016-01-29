@@ -3,7 +3,7 @@ exec_prefix=${prefix}
 libdir=${prefix}/lib
 includedir=${prefix}/include
 
-Name: foo
-Description: A testing pkg-config file
+Name: multiline
+Description: A multiline \
+             description
 Version: 1.2.3
-Libs: -L${libdir} -lfoo

@@ -1,7 +1,7 @@
 dnl configure.ac
 dnl m4 preprocessor script for autotools
 dnl
-dnl Copyright (c) 2011, 2012 pkgconf authors (see AUTHORS).
+dnl Copyright (c) 2011, 2012, 2013, 2014 pkgconf authors (see AUTHORS).
 dnl
 dnl Permission to use, copy, modify, and/or distribute this software for any
 dnl purpose with or without fee is hereby granted, provided that the above
@@ -12,11 +12,14 @@ dnl implied.  In no event shall the authors be liable for any damages arising
 dnl from the use of this software.
 
 AC_PREREQ([2.68])
-AC_INIT([pkgconf], [0.8.9], [http://github.com/pkgconf/pkgconf/issues])
-AC_CONFIG_SRCDIR([pkg.c])
-AC_CONFIG_HEADERS([config.h])
-AC_CHECK_FUNCS([strlcpy strlcat strndup])
+AC_INIT([pkgconf], [1], [http://github.com/pkgconf/pkgconf/issues])
+AC_CONFIG_SRCDIR([main.c])
+AC_CONFIG_HEADERS([libpkgconf/config.h])
+AC_CHECK_FUNCS([strlcpy strlcat strndup strtok_r])
+AM_INIT_AUTOMAKE([foreign dist-xz subdir-objects])
+LT_INIT
 
+AC_SYS_LARGEFILE
 
 AC_ARG_ENABLE([strict],
 	      [AC_HELP_STRING([--enable-strict],
@@ -52,6 +55,10 @@ AC_ARG_WITH([system-includedir],[AC_HELP_STRING([--with-system-includedir],[spec
 	     SYSTEM_INCLUDEDIR="$withval", SYSTEM_INCLUDEDIR="${includedir}")
 
 AC_SUBST([SYSTEM_INCLUDEDIR])
+
+AC_DEFINE_UNQUOTED([SYSTEM_LIBDIR], "$SYSTEM_LIBDIR", [System library directory list])
+AC_DEFINE_UNQUOTED([SYSTEM_INCLUDEDIR], "$SYSTEM_INCLUDEDIR", [System include directory list])
+AC_DEFINE_UNQUOTED([PKG_DEFAULT_PATH], "$PKGCONFIGDIR", [Default PKG_CONFIG_PATH search list])
 
 AC_PROG_CPP
 AC_PROG_CC

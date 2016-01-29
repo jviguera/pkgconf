@@ -30,12 +30,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "config.h"
-
 #ifndef _GETOPT_LONG_H_
 #define _GETOPT_LONG_H_
 
-#include "stdinc.h"
+#include <stdint.h>
 
 /*
  * GNU-like getopt_long()/getopt_long_only() with 4.4BSD optreset extension.
@@ -54,9 +52,9 @@ struct pkg_option {
 	 */
 	int has_arg;
 	/* if not NULL, set *flag to val when option found */
-	int *flag;
+	uint64_t *flag;
 	/* if flag not NULL, value to set *flag to; else return value */
-	int val;
+	uint64_t val;
 };
 
 int	pkg_getopt_long(int, char * const *, const char *,

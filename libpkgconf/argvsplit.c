@@ -13,18 +13,17 @@
  * from the use of this software.
  */
 
-#include "config.h"
-#include "pkg.h"
+#include <libpkgconf/libpkgconf.h>
 
 void
-pkg_argv_free(char **argv)
+pkgconf_argv_free(char **argv)
 {
 	free(argv[0]);
 	free(argv);
 }
 
 int
-pkg_argv_split(const char *src, int *argc, char ***argv)
+pkgconf_argv_split(const char *src, int *argc, char ***argv)
 {
 	char *buf = malloc(strlen(src) + 1);
 	const char *src_iter;
@@ -62,7 +61,7 @@ pkg_argv_split(const char *src, int *argc, char ***argv)
 			}
 			*dst_iter++ = *src_iter;
 		}
-		else if (isspace(*src_iter))
+		else if (isspace((unsigned int)*src_iter))
 		{
 			if ((*argv)[argc_count] != NULL)
 			{

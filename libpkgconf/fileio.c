@@ -13,11 +13,10 @@
  * from the use of this software.
  */
 
-#include "pkg.h"
-#include "bsdstubs.h"
+#include <libpkgconf/libpkgconf.h>
 
 char *
-pkg_fgetline(char *line, size_t size, FILE *stream)
+pkgconf_fgetline(char *line, size_t size, FILE *stream)
 {
 	char *s = line;
 	char *end = line + size - 1;
@@ -34,15 +33,36 @@ pkg_fgetline(char *line, size_t size, FILE *stream)
 			quoted = true;
 			continue;
 		}
-
+		else if (c == '#')
+		{
+			if (!quoted) {
+				/* Skip the rest of the line */
+				do {
+					c = getc(stream);
+				} while (c != '\n' && c != EOF);
+				*s++ = c;
+				break;
+			}
+			quoted = false;
+			continue;
+		}
 		else if (c == '\n')
 		{
-			*s++ = c;
-
 			if (quoted)
 			{
+				/* Trim spaces */
+				do {
+					c2 = getc(stream);
+				} while (c2 == '\t' || c2 == ' ');
+
+				ungetc(c2, stream);
+
 				quoted = false;
 				continue;
+			}
+			else
+			{
+				*s++ = c;
 			}
 
 			break;
@@ -83,10 +103,18 @@ pkg_fgetline(char *line, size_t size, FILE *stream)
 
 	}
 
-	*s = '\0';
-
 	if (c == EOF && (s == line || ferror(stream)))
 		return NULL;
+
+	*s = '\0';
+
+	/* Remove newline character. */
+	if (s > line && *(--s) == '\n') {
+		*s = '\0';
+
+		if (s > line && *(--s) == '\r')
+			*s = '\0';
+	}
 
 	return line;
 }

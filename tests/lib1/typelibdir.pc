@@ -2,8 +2,10 @@ prefix=/test
 exec_prefix=${prefix}
 libdir=${prefix}/lib
 includedir=${prefix}/include
+typelibdir=${libdir}/typelibdir
 
-Name: foo
+Name: test
 Description: A testing pkg-config file
 Version: 1.2.3
-Libs: -L${libdir} -lfoo
+Libs: -llib-1
+Cflags: 

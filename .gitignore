@@ -1,5 +1,10 @@
 *.h.in~
 *.o
+*.og
+*.op
+*.gcno
+*.gcda
+*.gcov
 core
 .gdb_history
 
@@ -22,5 +27,7 @@ core
 /config.status
 /configure
 /pkgconf
+/pkgconf-gcov
+/pkgconf-profile
 
 Makefile
